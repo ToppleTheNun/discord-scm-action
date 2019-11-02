@@ -61,5 +61,22 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ToppleTheNun/discord-scm-action.git"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "dist",
+            "node_modules",
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
   }
 }
