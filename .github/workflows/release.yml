@@ -20,8 +20,8 @@ jobs:
         run: yarn build
       - name: Run tests
         run: yarn test
-      - name: Clean Out to Just Production Dependencies
-        run: rm -rf node_modules && yarn install --frozen-lockfile --production
+      - name: Commit Node Modules
+        run: /usr/bin/env sh ./script/commit-node-modules.sh
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -28,7 +28,6 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
-    "@semantic-release/git": "^7.0.17",
     "@types/jest": "^24.0.21",
     "@zeit/ncc": "^0.20.5",
     "cz-conventional-changelog": "^3.0.2",
@@ -62,22 +61,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ToppleTheNun/discord-scm-action.git"
-  },
-  "release": {
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "dist",
-            "node_modules",
-            "package.json"
-          ],
-          "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
-        }
-      ]
-    ]
   }
 }
