@@ -26,4 +26,7 @@ jobs:
           git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
       - name: Release
-        uses: brpaz/action-semantic-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm i -g @semantic-release/git && npx semantic-release
