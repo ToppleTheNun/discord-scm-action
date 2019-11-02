@@ -20,9 +20,10 @@ jobs:
         run: yarn build
       - name: Run tests
         run: yarn test
-      - name: Setup Git User
+      - name: Setup Git
         run: |
           git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
           git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
       - name: Release
         uses: brpaz/action-semantic-release@v1
