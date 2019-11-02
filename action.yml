@@ -13,5 +13,10 @@ inputs:
     default: ''
     required: false
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    ARTIFACTS: ${{ inputs.artifacts }}
+    DISCORD_WEBHOOK_ID: ${{ inputs.discordWebhookId }}
+    DISCORD_WEBHOOK_TOKEN: ${{ inputs.discordWebhookToken }}
+

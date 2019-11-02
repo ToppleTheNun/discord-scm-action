@@ -5,6 +5,14 @@ import * as github from "@actions/github";
 import * as Discord from "discord.js";
 import * as glob from "glob";
 
+function getInput(name: string, options?: core.InputOptions): string {
+  const val = process.env[name.replace(/ /g, "_").toUpperCase()] || "";
+  if (options && options.required && !val) {
+    throw new Error(`Input required and not supplied: ${name}`);
+  }
+  return val.trim();
+}
+
 async function run() {
   try {
     let gitCliSha = "";
@@ -31,14 +39,14 @@ async function run() {
 
     core.debug(`Found Git Commit Message: \"${gitCommitMessage.trim()}\"`);
 
-    const discordWebhookId = core.getInput("discordWebhookId", {
+    const discordWebhookId = getInput("discord_Webhook_Id", {
       required: true
     });
-    const discordWebhookToken = core.getInput("discordWebhookToken", {
+    const discordWebhookToken = getInput("discord_Webhook_Token", {
       required: true
     });
 
-    const artifacts = core.getInput("artifacts") || "";
+    const artifacts = getInput("artifacts") || "";
     const pathToArtifacts = path.join(process.cwd(), artifacts);
     const artifactsPaths = glob.sync(pathToArtifacts);
     const artifactsFiles = artifactsPaths.map(artifact => ({
