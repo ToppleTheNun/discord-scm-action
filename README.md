@@ -3,11 +3,11 @@
 
 ## Inputs
 
-### `discord-webhook`
-**Required** The Discord webhook to post to.
+### `discordWebhookId`
+**Required** ID of the Discord webhook to post to.
 
-### `github-sha`
-**Required** The git SHA to read information from.
+### `discordWebhookToken`
+**Required** Token of the Discord webhook to post to.
 
 ### `artifacts`
 **Required** The path to the artifacts to upload.

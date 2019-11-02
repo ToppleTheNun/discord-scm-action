@@ -1,16 +1,60 @@
+import * as path from "path";
 import * as core from "@actions/core";
-import { wait } from "./wait";
+import * as exec from "@actions/exec";
+import * as github from "@actions/github";
+import * as Discord from "discord.js";
+import * as glob from "glob";
 
 async function run() {
   try {
-    const ms = core.getInput("milliseconds");
-    console.log(`Waiting ${ms} milliseconds ...`);
+    let gitCliSha = "";
+    const githubContextSha = github.context.sha;
+    await exec.exec("git", ["rev-parse", "HEAD"], {
+      listeners: {
+        stdout: (data: Buffer) => {
+          gitCliSha += data.toString();
+        }
+      }
+    });
+    const gitSha = githubContextSha || gitCliSha;
 
-    core.debug(new Date().toTimeString());
-    await wait(parseInt(ms, 10));
-    core.debug(new Date().toTimeString());
+    core.debug(`Found Git SHA: \"${gitSha}\"`);
 
-    core.setOutput("time", new Date().toTimeString());
+    let gitCommitMessage = "";
+    await exec.exec("git", ["log", "-1", "--pretty=%B"], {
+      listeners: {
+        stdout: (data: Buffer) => {
+          gitCommitMessage += data.toString();
+        }
+      }
+    });
+
+    core.debug(`Found Git Commit Message: \"${gitCommitMessage.trim()}\"`);
+
+    const discordWebhookId = core.getInput("discordWebhookId", {
+      required: true
+    });
+    const discordWebhookToken = core.getInput("discordWebhookToken", {
+      required: true
+    });
+
+    const artifacts = core.getInput("artifacts") || "";
+    const pathToArtifacts = path.join(process.cwd(), artifacts);
+    const artifactsPaths = glob.sync(pathToArtifacts);
+    const artifactsFiles = artifactsPaths.map(artifact => ({
+      attachment: artifact,
+      name: path.basename(artifact)
+    }));
+
+    core.debug(`artifactsFiles=${JSON.stringify(artifactsFiles)}`);
+    const hook = new Discord.WebhookClient(
+      discordWebhookId,
+      discordWebhookToken
+    );
+    core.debug("sending message to discord hook");
+    await hook.send(gitCommitMessage.trim(), {
+      files: artifactsFiles
+    });
   } catch (error) {
     core.setFailed(error.message);
   }

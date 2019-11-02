@@ -2,12 +2,16 @@ name: 'discord-scm-action'
 description: 'GitHub action to upload build artifacts and messages to a Discord channel. '
 author: 'ToppleTheNun'
 inputs:
-  discord-webhook:
-    description: 'The Discord webhook to post to.'
-  github-sha:
-    description: 'The git SHA to read information from.'
+  discordWebhookId:
+    description: 'The Discord webhook ID.'
+    required: true
+  discordWebhookToken:
+    description: 'The Discord webhook token.'
+    required: true
   artifacts:
     description: 'The path to the artifacts to upload.'
+    default: ''
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
