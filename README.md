@@ -11,3 +11,13 @@
 
 ### `artifacts`
 **Required** The path to the artifacts to upload.
+
+## Example
+
+```yaml
+- uses: ToppleTheNun/discord-scm-action@version
+  with:
+    discordWebhookId: ${{ secrets.DISCORD_WEBHOOK_ID }}
+    discordWebhookToken: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+    artifacts: README.md
+```
