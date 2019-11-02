@@ -24,8 +24,6 @@ jobs:
         run: |
           git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
           git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
-      - name: Commit Node Modules
-        run: /usr/bin/env sh ./script/commit-node-modules.sh
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
