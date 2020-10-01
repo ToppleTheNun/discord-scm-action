@@ -39,7 +39,7 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "@actions/core": "^1.2.0",
+    "@actions/core": "^1.2.6",
     "@actions/exec": "^1.0.1",
     "@actions/github": "^1.1.0",
     "discord.js": "^11.5.1",
