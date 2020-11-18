@@ -26,7 +26,7 @@ async function run() {
     });
     const gitSha = githubContextSha || gitCliSha;
 
-    core.debug(`Found Git SHA: \"${gitSha}\"`);
+    core.debug(`Found Git SHA: "${gitSha}"`);
 
     let gitCommitMessage = "";
     await exec.exec("git", ["log", "-1", "--pretty=%B"], {
@@ -37,7 +37,7 @@ async function run() {
       }
     });
 
-    core.debug(`Found Git Commit Message: \"${gitCommitMessage.trim()}\"`);
+    core.debug(`Found Git Commit Message: "${gitCommitMessage.trim()}"`);
 
     const discordWebhookId = getInput("discord_Webhook_Id", {
       required: true
