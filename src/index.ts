@@ -63,9 +63,12 @@ async function run() {
     await hook.send(gitCommitMessage.trim(), {
       files: artifactsFiles
     });
+    core.debug("sent to webhook");
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-run();
+run().then(() => {
+  core.debug("");
+});
