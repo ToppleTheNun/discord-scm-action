@@ -56,17 +56,14 @@ async function run() {
     }));
 
     core.debug(`artifactsFiles=${JSON.stringify(artifactsFiles)}`);
-    hook = new Discord.WebhookClient(
-      discordWebhookId,
-      discordWebhookToken
-    );
+    hook = new Discord.WebhookClient(discordWebhookId, discordWebhookToken);
     core.debug("sending message to discord hook");
     await hook.send(gitCommitMessage.trim(), {
       files: artifactsFiles
     });
     core.debug("sent to webhook");
   } catch (error) {
-    core.error(error)
+    core.error(error);
     core.setFailed(error.message);
   } finally {
     if (hook) {
