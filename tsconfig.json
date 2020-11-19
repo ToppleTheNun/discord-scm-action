@@ -26,5 +26,10 @@
     },
     "jsx": "react",
     "esModuleInterop": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
   }
 }

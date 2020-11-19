@@ -14,6 +14,7 @@ function getInput(name: string, options?: core.InputOptions): string {
 }
 
 async function run() {
+  let hook: Discord.WebhookClient | undefined = undefined;
   try {
     let gitCliSha = "";
     const githubContextSha = github.context.sha;
@@ -39,14 +40,14 @@ async function run() {
 
     core.debug(`Found Git Commit Message: "${gitCommitMessage.trim()}"`);
 
-    const discordWebhookId = getInput("discord_Webhook_Id", {
+    const discordWebhookId = getInput("DISCORD_WEBHOOK_ID", {
       required: true
     });
-    const discordWebhookToken = getInput("discord_Webhook_Token", {
+    const discordWebhookToken = getInput("DISCORD_WEBHOOK_TOKEN", {
       required: true
     });
 
-    const artifacts = getInput("artifacts") || "";
+    const artifacts = getInput("ARTIFACTS") || "";
     const pathToArtifacts = path.join(process.cwd(), artifacts);
     const artifactsPaths = glob.sync(pathToArtifacts);
     const artifactsFiles = artifactsPaths.map(artifact => ({
@@ -55,7 +56,7 @@ async function run() {
     }));
 
     core.debug(`artifactsFiles=${JSON.stringify(artifactsFiles)}`);
-    const hook = new Discord.WebhookClient(
+    hook = new Discord.WebhookClient(
       discordWebhookId,
       discordWebhookToken
     );
@@ -65,10 +66,13 @@ async function run() {
     });
     core.debug("sent to webhook");
   } catch (error) {
+    core.error(error)
     core.setFailed(error.message);
+  } finally {
+    if (hook) {
+      hook.destroy();
+    }
   }
 }
 
-run().then(() => {
-  core.debug("");
-});
+run().catch(() => {});

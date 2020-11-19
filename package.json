@@ -15,8 +15,9 @@
     "commit": "git-cz",
     "lint": "tsdx lint",
     "semantic-release": "semantic-release",
-    "start": "tsdx watch",
-    "test": "tsdx test --passWithNoTests"
+    "start": "ts-node src/index.ts",
+    "test": "tsdx test --passWithNoTests",
+    "watch": "tsdx watch"
   },
   "peerDependencies": {},
   "husky": {
@@ -33,6 +34,7 @@
     "husky": "^4.3.0",
     "jest-circus": "^26.6.3",
     "semantic-release": "^17.2.3",
+    "ts-node": "^9.0.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.0.3",
     "typescript": "^4.0.5"
